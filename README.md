@@ -37,17 +37,19 @@ npm run qr
 - `number1`〜`number10`: 番号用のテキスト変数
 - `@qr1`〜`@qr10`: QRコード用のリンクファイル変数
 
-Illustratorを使用するPCのターミナルで、プロジェクトのルートから次のコマンドを実行します。
+Illustratorを使用するPCのターミナルで、プロジェクトのルートからQRディレクトリのパスを引数にして実行します。
 
 ```bash
-npm run illustrator-csv
+python3 scripts/generate_illustrator_csv.py "/Users/your-name/path/to/QR"
 ```
 
-これにより、各SVGの絶対パスを記録した`QR/numberAndQR.csv`が作成されます。別の場所にあるQRディレクトリを指定する場合は、次のように実行します。
+または、npm経由でも実行できます。
 
 ```bash
 npm run illustrator-csv -- "/Users/your-name/path/to/QR"
 ```
+
+これにより、各SVGの絶対パスを記録した`numberAndQR.csv`が、指定したQRディレクトリ内に作成されます。
 
 Illustratorでは次の順に設定します。
 
