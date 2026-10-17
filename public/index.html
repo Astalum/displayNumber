@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>番号表示</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: Canvas;
+        color: CanvasText;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100svh;
+        margin: 0;
+      }
+
+      main {
+        display: grid;
+        min-height: 100svh;
+        place-items: center;
+        padding: 4vw;
+      }
+
+      #number {
+        margin: 0;
+        font-size: clamp(2rem, var(--number-size, 40vw), 32rem);
+        font-variant-numeric: tabular-nums;
+        font-weight: 800;
+        letter-spacing: -0.055em;
+        line-height: 0.85;
+        text-align: center;
+      }
+
+      #guide {
+        max-width: 34rem;
+        margin: 0;
+        color: color-mix(in srgb, CanvasText 66%, transparent);
+        font-size: clamp(1rem, 3vw, 1.25rem);
+        line-height: 1.7;
+        text-align: center;
+      }
+
+      code {
+        color: CanvasText;
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p id="number" aria-live="polite" hidden></p>
+      <p id="guide" hidden>
+        URLの末尾に表示したい番号を追加してください。<br />
+        例：<code><span id="example-url"></span>123</code>
+      </p>
+    </main>
+    <script>
+      (() => {
+        const repositoryName = "displayNumber";
+        const parts = location.pathname
+          .split("/")
+          .filter(Boolean)
+          .map((part) => {
+            try {
+              return decodeURIComponent(part);
+            } catch {
+              return part;
+            }
+          });
+        const candidate = parts.at(-1) ?? "";
+        const number = candidate === repositoryName ? "" : candidate;
+        const numberElement = document.querySelector("#number");
+        const guideElement = document.querySelector("#guide");
+
+        if (/^[0-9]+$/.test(number)) {
+          numberElement.textContent = number;
+          numberElement.style.setProperty(
+            "--number-size",
+            `${Math.min(40, 88 / Math.max(number.length, 1))}vw`,
+          );
+          numberElement.hidden = false;
+          document.title = number;
+        } else {
+          const basePath = location.hostname.endsWith("github.io")
+            ? `/${repositoryName}/`
+            : "/";
+          document.querySelector("#example-url").textContent =
+            `${location.origin}${basePath}`;
+          guideElement.hidden = false;
+        }
+      })();
+    </script>
+  </body>
+</html>
