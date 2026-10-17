@@ -32,9 +32,27 @@ npm run qr
 
 ## Illustratorへ流し込む
 
-`QR/illustrator.csv` は、10個の番号とQRコードを1セットとして、1〜100を10データセットにまとめたIllustrator用CSVです。
+`QR/numberAndQR.csv` は、10個の番号とQRコードを1セットとして、1〜100を10データセットにまとめたIllustrator用CSVです。
 
 - `number1`〜`number10`: 番号用のテキスト変数
 - `@qr1`〜`@qr10`: QRコード用のリンクファイル変数
 
-CSVとSVGファイルは同じ`QR`ディレクトリに置いたまま使用してください。Illustratorの［ウィンドウ］→［変数］からCSVを読み込み、各変数を対応するテキストまたはリンク画像へ紐付けます。
+Illustratorを使用するPCのターミナルで、プロジェクトのルートから次のコマンドを実行します。
+
+```bash
+npm run illustrator-csv
+```
+
+これにより、各SVGの絶対パスを記録した`QR/numberAndQR.csv`が作成されます。別の場所にあるQRディレクトリを指定する場合は、次のように実行します。
+
+```bash
+npm run illustrator-csv -- "/Users/your-name/path/to/QR"
+```
+
+Illustratorでは次の順に設定します。
+
+1. ［ファイル］→［配置］でSVGを配置し、［リンク］を有効にする（埋め込まない）
+2. ［ウィンドウ］→［変数］→［読み込み］から`numberAndQR.csv`を読み込む
+3. 各テキストを`number1`〜`number10`へ紐付ける
+4. 各リンク画像を`qr1`〜`qr10`へ［リンクファイルを動的に設定］で紐付ける
+5. ［データセット］を切り替えて番号と画像が変わることを確認する
